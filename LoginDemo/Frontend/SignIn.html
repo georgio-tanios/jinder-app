@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="SigninStyleSheet.css">
+    <script src="jquery.js"></script>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <form action="/" method="post">
+        <input type="radio" id="radio_login" name="login/signup" value="Login" onclick="showLogin();" />Login<br />
+        <input type="radio" id="radio_signup" name="login/signup" value="Sign Up" onclick="showSignup();" />Sign Up<br />
+
+        <div id="divLogin" class="hide">
+            <h2>Welcome to Login page</h2>
+            <label>
+                Username:<span class="req">*</span><br/>
+                <input type="text" id="usernameidLog" />
+            </label>
+            <br/>
+            <br/>
+            <label>
+                Password:<span class="req">*</span><br />
+                <input type="password" id="passwordidLog" />
+            </label>
+            <br/>
+            <input type="button" class="loginbtn" id="btnlogin" value="LOG IN"  />
+        </div>
+        <div id="divSignup" class="hide">
+            <h2>Sign Up page</h2>
+            <label>
+                Full name:<span class="req">*</span><br />
+                <input type="text" id="fullnameidSignup" />
+            </label>
+            <br />
+            <br />
+            <label>
+                Username:<span class="req">*</span><br />
+                <input type="text" id="usernameidSignup" />
+            </label>
+            <br/>
+            <br/>
+            <label>
+                Date Of Birth:<span class="req">*</span><br />
+                <input type="text" id="date_of_birth" />
+            </label>
+            <br />
+            <br />
+            <input type="radio" id="radio_Male" name="gender" value="Male"  />Male<br />
+            <input type="radio" id="radio_Female" name="gender" value="Female"  />Female<br />
+            <br />
+            <label>
+                Address:<span class="req">*</span><br />
+                <input type="text" id="address" />
+            </label>
+            <br />
+            <br />
+            <input type="radio" id="radio_seeker" name="user_type" value="Seeker"  />Seeker<br />
+            <input type="radio" id="radio_poster" name="user_type" value="Poster"  />Poster<br />
+            <br />
+            <label>
+                Password:<span class="req">*</span><br />
+                <input type="password" id="passwordidSignup" />
+            </label>
+            <br />
+            <br />
+            <label>
+                Skills:<span class="req">*</span><br />
+                <input type="text" id="skills" />
+            </label>
+            <br />
+            <br />
+            <label>
+                Education:<span class="req">*</span><br />
+                <input type="text" id="education" />
+            </label>
+            <br />
+            <br />
+            <label>
+                Experience:<span class="req">*</span><br />
+                <input type="text" id="experience" />
+            </label>
+            <br />
+            <br />
+            <label>
+                Certification:<span class="req">*</span><br />
+                <input type="text" id="certification" />
+            </label>
+            <br/>
+            <input type="button" class="signupbtn" id="btnsignup" value="SIGN UP"/>
+        </div>
+    </form>
+    <script type="text/javascript">
+        function selectOnlyThisType(id) {
+            for (var i = 1; i <= 2; i++) {
+                document.getElementById(i).checked = false;
+            }
+            document.getElementById(id).checked = true;
+        }
+
+        function selectOnlyThisGender(id) {
+            for (var i = 3; i <= 4; i++) {
+                document.getElementById(i).checked = false;
+            }
+            document.getElementById(id).checked = true;
+        }
+    </script>
+    <script type="text/javascript">
+        function showLogin() {
+            document.getElementById('divLogin').style.display = 'block';
+            document.getElementById('divSignup').style.display = 'none'
+        }
+
+        function showSignup() {
+            document.getElementById('divSignup').style.display = 'block';
+            document.getElementById('divLogin').style.display = 'none';
+        }
+    </script>
+    <script>
+        $("#btnsignup").click(function btnsignup() {
+            alert("welcome");
+            var signupInfo = {
+                "Username": $("#usernameidSignup").val(),
+                "Password": $("#passwordidSignup").val(),
+                "Fullname": $("#fullnameidSignup").val(),
+                "DateOfBirth": $("#date_of_birth").val(),
+                "Gender": $("input[name='gender']:checked").attr("value"),
+                "Address": $("#address").val(),
+                "UserType": $("input[name='user_type']:checked").attr("value"),
+                "Skills": $("#skills").val(),
+                "Education": $("#education").val(),
+                "Experience": $("#experience").val(),
+                "Certification": $("#certifications").val()
+
+            };
+            console.log(signupInfo);
+            $.ajax({
+                url: "http://localhost:49467/api/Users/Signup",
+                type: "post",
+                contentType: "application/json; charset=UTF-8",
+                processData: false,
+                data: JSON.stringify(signupInfo),
+                statusCode: {
+                    201: function () {
+                        alert("You have successfully signed up for Jinder.");
+                    },
+                    409: function () {
+                        alert("Username: " + signupInfo.Username + " is already registered.");
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $("#btnLogin").click(function btnLogin() {
+            alert("welcome");
+            var signupInfo = {
+                "Username": $("#usernameidLog").val(),
+                "Password": $("#passwordidLog").val(),
+                
+            };
+            console.log(loginInfo);
+            $.ajax({
+                url: "http://localhost:49467/api/Users/Login",
+                type: "post",
+                contentType: "application/json; charset=UTF-8",
+                processData: false,
+                data: JSON.stringify(loginInfo),
+                statusCode: {
+                    201: function () {
+                        alert("You have successfully loged in for Jinder.");
+                    },
+                    409: function () {
+                        alert("Username: " + signupInfo.Username + " is already registered.");
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

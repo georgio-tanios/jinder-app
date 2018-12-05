@@ -1,0 +1,11 @@
+body {
+    font-family: arial;
+}
+
+.hide {
+    display: none;
+}
+
+h2 {
+    font-weight: bold;
+}
